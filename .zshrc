@@ -16,6 +16,7 @@ source ~/zsh_plugins/zsh-completions/zsh-completions.plugin.zsh
 export ZSH="$HOME/.oh-my-zsh"
 # Custom PATH
 export PATH=~/.local/bin:$PATH
+export PATH=$HOME/.config/rofi/bin:$PATH
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -115,6 +116,9 @@ source $ZSH/oh-my-zsh.sh
 alias nvim="lvim"
 alias nv="lvim"
 alias cdg="cd ~/Desktop/Githubrepo"
+alias lock="multilockscreen -l dimblur --display 1 --span"
+alias view="zathura"
+alias ls="exa --icons"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
