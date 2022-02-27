@@ -10,19 +10,19 @@ an executable
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save = true
+lvim.format_on_save = false
 lvim.colorscheme = "kanagawa"
 
 -- statusline
-lvim.builtin.lualine.style = "lvim"
 lvim.builtin.lualine.sections.lualine_a = { "mode" }
-lvim.builtin.lualine.options.icons_enabled = true
-lvim.builtin.lualine.options.theme = "catppuccin"
+lvim.builtin.lualine.options.theme = "tokyonight"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["<leader>P"] = ":MarkdownPreviewToggle<cr>"
+lvim.keys.insert_mode[";;"] = "<esc>A;"
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = false
 -- edit a default keymapping
@@ -87,25 +87,28 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- generic LSP settings
 
 -- ---@usage disable automatic installation of servers
-lvim.lsp.automatic_servers_installation = false
+-- lvim.lsp.automatic_servers_installation = false
 
 -- ---@usage Select which servers should be configured manually. Requires `:LvimCacheRest` to take effect.
 -- See the full default list `:lua print(vim.inspect(lvim.lsp.override))`
-vim.list_extend(lvim.lsp.override, { "pyright" })
+-- vim.list_extend(lvim.lsp.override, { "" })
+-- lvim.lsp.override = vim.tbl_filter(function(name)
+-- 	return name ~= "ccls"
+-- end, lvim.lsp.override)
 
 -- ---@usage setup a server -- see: https://www.lunarvim.org/languages/#overriding-the-default-configuration
-local opts = { "ccls", "tsserver" } -- check the lspconfig documentation for a list of all possible options
-require("lvim.lsp.manager").setup("pylsp", opts)
+-- local opts = {} -- check the lspconfig documentation for a list of all possible options
+-- require("lvim.lsp.manager").setup("pylsp", opts)
 
--- you can set a custom on_attach function that will be used for all the language servers
--- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
-lvim.lsp.on_attach_callback = function(client, bufnr)
-	local function buf_set_option(...)
-		vim.api.nvim_buf_set_option(bufnr, ...)
-	end
-	--Enable completion triggered by <c-x><c-o>
-	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-end
+-- -- you can set a custom on_attach function that will be used for all the language servers
+-- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
+-- lvim.lsp.on_attach_callback = function(client, bufnr)
+--   local function buf_set_option(...)
+--     vim.api.nvim_buf_set_option(bufnr, ...)
+--   end
+--   --Enable completion triggered by <c-x><c-o>
+--   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+-- end
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require("lvim.lsp.null-ls.formatters")
@@ -118,7 +121,7 @@ formatters.setup({
 		-- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
 		extra_args = { "--print-with", "100" },
 		---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-		filetypes = { "typescript", "typescriptreact", "javascriptreact", "javascrip" },
+		filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "css", "scss", "html" },
 	},
 	{
 		command = "stylua",
@@ -136,16 +139,13 @@ linters.setup({
 	-- 	---@usage arguments to pass to the formatter
 	-- 	-- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
 	-- 	extra_args = { "--severity", "warning" },
+	-- 	filetypes = { "sh" },
 	-- },
-	{
-		command = "codespell",
-		---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-		filetypes = { "javascript", "python" },
-	},
-	{
-		command = "eslint_d",
-		filetypes = { "javascript" },
-	},
+	-- {
+	-- 	command = "codespell",
+	-- 	---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+	-- 	filetypes = { "javascript", "python" },
+	-- },
 })
 
 -- Additional Plugins
@@ -168,6 +168,23 @@ lvim.plugins = {
 	{
 		"norcalli/nvim-colorizer.lua",
 	},
+	{
+		"windwp/nvim-ts-autotag",
+	},
+	{
+		"folke/todo-comments.nvim",
+		config = function()
+			require("todo-comments").setup()
+		end,
+	},
+	{
+		"iamcco/markdown-preview.nvim",
+		run = "cd app && npm install",
+		ft = "markdown",
+		config = function()
+			vim.g.mkdp_auto_start = 1
+		end,
+	},
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
@@ -176,7 +193,10 @@ lvim.plugins = {
 -- }
 
 -- plugin override config
-lvim.builtin.treesitter.rainbow.enable = true
+
+-- treesitter
+lvim.builtin.treesitter.rainbow.enable = false
 lvim.builtin.treesitter.rainbow.extended_mode = true
 lvim.builtin.treesitter.rainbow.max_file_lines = nil
-lvim.builtin.treesitter.rainbow.colors = { "#B4F8C8", "#FFB067", "#A2DCE7" }
+lvim.builtin.treesitter.rainbow.colors = { "#FFCCFB", "#45A9D3", "#FC7662" }
+lvim.builtin.treesitter.autotag.enable = true

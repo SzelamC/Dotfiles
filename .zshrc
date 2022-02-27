@@ -119,6 +119,8 @@ alias cdg="cd ~/Desktop/Githubrepo"
 alias lock="multilockscreen -l dimblur --display 1 --span"
 alias view="zathura"
 alias ls="exa --icons"
+alias edge="microsoft-edge-stable"
+alias fetch="nerdfetch"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
