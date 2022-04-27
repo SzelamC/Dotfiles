@@ -18,8 +18,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<leader>P"] = ":w<cr>:Glow<cr>"
 lvim.keys.insert_mode[";;"] = "<Esc>A;"
 -- unmap a default keymapping
--- lvim.keys.normal_mode["<C-Up>"] = false
--- edit a default keymapping
+-- lvim.keys.normal_mode["<C-Up>"] = false edit a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
@@ -71,7 +70,11 @@ lvim.builtin.lualine.options.theme = "horizon"
 
 lvim.builtin.treesitter.autotag.enable = true
 lvim.builtin.treesitter.rainbow.enable = true
-lvim.builtin.treesitter.rainbow.colors = { "#ffc649", "#ffb2a8", "##ffa6dd" }
+lvim.builtin.treesitter.rainbow.colors = {
+	"#ffa6dd",
+	"#ffb2a8",
+	"#ffc649",
+}
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -99,15 +102,16 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
--- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
--- local opts = {} -- check the lspconfig documentation for a list of all possible options
--- require("lvim.lsp.manager").setup("pyright", opts)
+-- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tailwindcss" })
+local opts = {} -- check the lspconfig documentation for a list of all possible options
+-- require("lvim.lsp.manager").setup("tailwindcss")
+require("lspconfig")["tailwindcss"].setup(opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
--- vim.tbl_map(function(server)
---   return server ~= "emmet_ls"
--- end, lvim.lsp.automatic_configuration.skipped_servers)
+vim.tbl_map(function(server)
+	return server ~= "tailwindcss"
+end, lvim.lsp.automatic_configuration.skipped_servers)
 
 -- -- you can set a custom on_attach function that will be used for all the language servers
 -- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
@@ -131,7 +135,7 @@ formatters.setup({
 		-- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
 		extra_args = { "--print-with", "100" },
 		---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-		filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+		filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "css" },
 	},
 	{
 		command = "stylua",
@@ -170,7 +174,8 @@ lvim.plugins = {
 			function_style = "none",
 			transparent = false,
 			dev = true,
-			transparent_sidebar = true,
+			transparent_sidebar = false,
+      colors = {},
 			overrides = function(c)
 				--         local c = {
 				--   none = 'NONE',
@@ -207,9 +212,12 @@ lvim.plugins = {
 				--   },
 				-- }
 				return {
+					Visual = { fg = "#F9FFB3", bg = c.bg_visual },
 					Conditional = { fg = c.purple0, style = "italic" },
 					Exception = { fg = c.purple0, style = "italic" },
 					Repeat = { fg = c.purple0, style = "italic" },
+					TSInclude = { fg = c.purple0, style = "italic" },
+					-- TSParameter = { fg = c. },
 					TSTagAttribute = { fg = c.orange1 },
 					LspDiagnosticsVirtualTextHint = { style = "bold" },
 					javascriptTSFunction = { fg = c.blue0 },
@@ -247,24 +255,6 @@ lvim.plugins = {
 	{
 		"ggandor/lightspeed.nvim",
 		event = "BufRead",
-	},
-	{
-		"karb94/neoscroll.nvim",
-		event = "WinScrolled",
-		config = function()
-			require("neoscroll").setup({
-				-- All these keys will be mapped to their corresponding default scrolling animation
-				mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
-				hide_cursor = true, -- Hide cursor while scrolling
-				stop_eof = true, -- Stop at <EOF> when scrolling downwards
-				use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
-				respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-				cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-				easing_function = nil, -- Default easing function
-				pre_hook = nil, -- Function to run before the scrolling animation starts
-				post_hook = nil, -- Function to run after the scrolling animation ends
-			})
-		end,
 	},
 	{
 		"folke/todo-comments.nvim",
