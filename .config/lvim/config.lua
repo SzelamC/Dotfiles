@@ -123,6 +123,12 @@ end, lvim.lsp.automatic_configuration.skipped_servers)
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
 
+vim.diagnostic.config({
+	virtual_text = {
+		prefix = "  ",
+	},
+})
+
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
@@ -175,7 +181,7 @@ lvim.plugins = {
 			transparent = false,
 			dev = true,
 			transparent_sidebar = false,
-      colors = {},
+			colors = {},
 			overrides = function(c)
 				--         local c = {
 				--   none = 'NONE',
@@ -224,7 +230,7 @@ lvim.plugins = {
 					javascriptTSVariable = { fg = "#E26674" },
 					typescriptTSFunction = { fg = c.blue0 },
 					typescriptTSVariable = { fg = "#E26674" },
-					String = { fg = "#70F49C" },
+					-- String = { fg = "#70F49C" },
 					-- Normal = { bg = "#ff4a5c", fg = c.dev_icons.green0 }
 					-- javascriptTSVariable = { fg = c.yellow0 }
 				}
