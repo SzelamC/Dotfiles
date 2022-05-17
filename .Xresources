@@ -10,8 +10,8 @@ st.borderpx: 20
 
 !-- values between 0.1  - 1.0 --! 
 
-st.alpha: 0.2
-st.font: JetBrainsMono Nerd Font:style:bold:pixelsize=15
+st.alpha: 0.5
+! st.font: JetBrainsMono Nerd Font:style:bold:pixelsize=15
 
 *background: #1E1E2E
 *foreground: #D9E0EE
@@ -47,3 +47,4 @@ st.font: JetBrainsMono Nerd Font:style:bold:pixelsize=15
 ! Whites
 *color7: #C3BAC6
 *color15: #D9E0EE
+
