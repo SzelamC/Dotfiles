@@ -95,12 +95,10 @@ lvim.builtin.treesitter.ensure_installed = {
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 
-lvim.lsp.diagnostics.virtual_text = true
-vim.diagnostic.config({
-  virtual_text = {
-    prefix = "  ",
-  },
-})
+lvim.lsp.diagnostics.virtual_text = {
+  prefix = "  "
+ }
+
 
 -- generic LSP settings
 
